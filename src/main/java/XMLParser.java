@@ -15,7 +15,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -58,7 +57,8 @@ public class XMLParser {
 
         ArrayList<Entry> entryList = parseXML(dictFile);
 
-        showResults(entryList);
+        //printResults(entryList, true);
+        saveResults(entryList, "results.txt", true);
     }
 
 
@@ -220,20 +220,44 @@ public class XMLParser {
      *
      * @param entryList A list of Entries containing dictionary data.
      */
-    private static void showResults(ArrayList<Entry> entryList) {
+    private void getResults(ArrayList<Entry> entryList, boolean infer) {
         Trie nwl = new Trie("NWL23");
-        //       Trie csw = new Trie("CSW24");
+//        Trie csw = new Trie("CSW24");
         LinkedHashSet<String> words = new LinkedHashSet<>();
         for (Entry entry : entryList) {
-            if (entry.isExpurgated()) continue;
-            words.addAll(entry.getScrabbleWords());
+            words.addAll(entry.getScrabbleWords(infer));
         }
         for (String word : words) {
             String formattedWord = scrabbleFormat(word);
-            if (!nwl.contains(formattedWord) && formattedWord.length() <= 8) {
+            if (!nwl.contains(formattedWord)) {
                 System.out.println(formattedWord);
             }
         }
+    }
+
+    /**
+     * Filters the list of Entries and saves the results to the named file
+     * @param entryList A list of Entries containing dictionary data.
+     * @param output The name of the output file
+     * @param infer Whether
+     */
+    private static void saveResults(ArrayList<Entry> entryList, String output, boolean infer) throws FileNotFoundException {
+//        Trie nwl = new Trie("NWL23");
+//        Trie csw = new Trie("CSW24");
+        LinkedHashSet<String> words = new LinkedHashSet<>();
+        try(PrintWriter pw = new PrintWriter(output)) {
+
+            for (Entry entry : entryList) {
+                words.addAll(entry.getScrabbleWords(infer));
+            }
+            for (String word : words) {
+                String formattedWord = scrabbleFormat(word);
+                if (true) {
+                    pw.println(formattedWord);
+                }
+            }
+        }
+        System.out.println("Results saved to file: " + output);
     }
 
 
