@@ -45,9 +45,9 @@ abstract class DictionaryElement {
                 plurals.add(head.substring(0, head.length() - 1) + "ies");
             else
                 plurals.add(head + "s");
-        } else if(plural != null && !plural.isBlank()) {
+        } else if (plural != null && !plural.isBlank()) {
             for (String p : plural.split(",")) {
-                if(!matchesTileSet(p.trim())) continue;
+                if (!matchesTileSet(p.trim())) continue;
                 if (p.trim().startsWith("·")) {
                     p = p.replaceAll("·", "").trim();
                     plurals.add(head.substring(0, head.lastIndexOf(p.charAt(0))) + p);
@@ -67,7 +67,7 @@ abstract class DictionaryElement {
 
         for (String p : singular.split(",")) {
             if (p.isBlank()) continue;
-            if(!matchesTileSet(p.trim())) continue;
+            if (!matchesTileSet(p.trim())) continue;
             if (p.trim().startsWith("·")) {
                 plurals.add(head.substring(0, head.lastIndexOf(p.charAt(1))) + p);
             }
@@ -83,24 +83,23 @@ abstract class DictionaryElement {
         ArrayList<String> inf = new ArrayList<>();
         if (inflections == null && infer) {
             if (head.matches(".*s|.*x|.+z|.+j|.+sh|.+ch")) {
-        //        inf.add(head + "es");
+                inf.add(head + "es");
                 inf.add(head + "ed");
                 inf.add(head + "ing");
             } else if (head.matches(".*[bcdfghjklmnpqrstvxz]y")) {
-      //          inf.add(head.substring(0, head.length() - 1) + "ies");
+                inf.add(head.substring(0, head.length() - 1) + "ies");
                 inf.add(head.substring(0, head.length() - 1) + "ied");
                 inf.add(head + "ing");
-            } else if(head.endsWith("ee")) {
-     //           inf.add(head + "s");
+            } else if (head.endsWith("ee")) {
+                inf.add(head + "s");
                 inf.add(head + "d");
                 inf.add(head + "ing");
-            }
-            else if (head.endsWith("e")) {
-      //          inf.add(head + "s");
+            } else if (head.endsWith("e")) {
+                inf.add(head + "s");
                 inf.add(head + "d");
                 inf.add(head.substring(0, head.length() - 1) + "ing");
             } else {
-      //          inf.add(head + "s");
+                inf.add(head + "s");
                 inf.add(head + "ed");
                 inf.add(head + "ing");
             }
@@ -114,11 +113,7 @@ abstract class DictionaryElement {
                 }
             }
         }
-        if (inf.contains("deonian")) {
 
-            System.out.println(head);
-            System.exit(1);
-        }
         return inf;
     }
 
@@ -128,7 +123,7 @@ abstract class DictionaryElement {
      */
     final protected ArrayList<String> getAdjectiveInflections(String head, String inflections) {
         ArrayList<String> inf = new ArrayList<>();
-        if(inflections == null || inflections.isBlank()) return inf;
+        if (inflections == null || inflections.isBlank()) return inf;
         for (String i : inflections.split(",")) {
 
             if (i.trim().startsWith("·")) {
@@ -151,7 +146,7 @@ abstract class DictionaryElement {
                 && letters.replaceAll(XMLParser.controlChars, "").length() >= 2;
     }
 
-    abstract ArrayList<String> getScrabbleWords();
+    abstract ArrayList<String> getScrabbleWords(boolean infer);
 
     final protected boolean isExpurgated() {
         return context.contains("slur");
