@@ -26,7 +26,7 @@ class Entry extends DictionaryElement {
     /**
      *
      */
-    ArrayList<String> getScrabbleWords() {
+    ArrayList<String> getScrabbleWords(boolean infer) {
         ArrayList<String> allWords = new ArrayList<>();
         if (isExpurgated()) return allWords;
 
@@ -40,11 +40,11 @@ class Entry extends DictionaryElement {
         }
         if (isEnglish()) {
             for (Part p : parts) {
-                allWords.addAll(p.getScrabbleWords());
+                allWords.addAll(p.getScrabbleWords(infer));
             }
 
             for (Runon r : runons) {
-                allWords.addAll(r.getScrabbleWords());
+                allWords.addAll(r.getScrabbleWords(infer));
             }
         }
         return allWords;
