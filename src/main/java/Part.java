@@ -6,9 +6,6 @@ import java.util.StringJoiner;
  */
 class Part extends DictionaryElement {
 
-
-    //enum POS {adj, adv, article, aux, conj, inf, interj, n, npl, prep, pron, v}
-
     private final Entry entry;
     private final String grammar;
     private final String inflections;
@@ -52,7 +49,7 @@ class Part extends DictionaryElement {
     /**
      *
      */
-    ArrayList<String> getScrabbleWords() {
+    ArrayList<String> getScrabbleWords(boolean infer) {
         ArrayList<String> allWords = new ArrayList<>();
 
         if (isNonwordType() || isExpurgated()) return allWords;
@@ -60,36 +57,20 @@ class Part extends DictionaryElement {
         if (isEnglish()) {
 
             if (type.equals(POS.n.name())) {
-                for (String pl : getPlurals(entry.content, plural, true)) {
+                for (String pl : getPlurals(entry.content, plural, infer)) {
                     if (matchesTileSet(pl)) {
                         allWords.add(pl);
                     }
                 }
             } else if (type.equals(POS.v.name())) {
-                for (String inf : getVerbInflections(entry.content, inflections, true)) {
+                for (String inf : getVerbInflections(entry.content, inflections, infer)) {
                     if (matchesTileSet(inf)) {
                         allWords.add(inf);
                     }
                 }
-                //The present tense is identical to the plural(s) of the corresponding noun (if there is one);
-                // otherwise infer as if the noun did exist.
-                boolean hasNounForm = false;
-                for(Part p : entry.getParts()) {
-                    if(p.getType().equals("n")) {
-                        hasNounForm = true;
-                        for (String pl : p.getPlurals(entry.content, p.plural, true)) {
-                            if(matchesTileSet(pl)) {
-                                allWords.add(pl);
-                            }
-                        }
-                        break;
-                    }
-                }
-                if(!hasNounForm) {
-                    for(String pl : getPlurals(entry.content, "", true)) {
-                        if(matchesTileSet(pl)) {
-                            allWords.add(pl);
-                        }
+                for(String pl : getPlurals(entry.content, plural, infer)) {
+                    if (matchesTileSet(pl)) {
+                        allWords.add(pl);
                     }
                 }
             } else if (type.equals(POS.npl.name())) {
@@ -108,7 +89,7 @@ class Part extends DictionaryElement {
         }
 
         for (Variant var : variants) {
-            allWords.addAll(var.getScrabbleWords());
+            allWords.addAll(var.getScrabbleWords(infer));
         }
 
 

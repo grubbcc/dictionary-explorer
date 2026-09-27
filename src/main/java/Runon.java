@@ -26,7 +26,7 @@ public class Runon extends DictionaryElement {
     /**
      *
      */
-    ArrayList<String> getScrabbleWords() {
+    ArrayList<String> getScrabbleWords(boolean infer) {
         ArrayList<String> allWords = new ArrayList<>();
 
         if (isExpurgated()) return allWords;
@@ -36,18 +36,18 @@ public class Runon extends DictionaryElement {
         }
 
         if (type.equals(POS.n.name())) {
-            for (String pl : getPlurals(content, plurals, true)) {
+            for (String pl : getPlurals(content, plurals, infer)) {
                 if (matchesTileSet(pl)) {
                     allWords.add(pl);
                 }
             }
         } else if (type.equals(POS.v.name())) {
-            for (String inf : getVerbInflections(content, inflections, true)) {
+            for (String inf : getVerbInflections(content, inflections, infer)) {
                 if (matchesTileSet(inf)) {
                     allWords.add(inf);
                 }
             }
-            for(String pl : getPlurals(content, "", true)) {
+            for(String pl : getPlurals(content, plurals, infer)) {
                 if (matchesTileSet(pl)) {
                     allWords.add(pl);
                 }
