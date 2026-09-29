@@ -1,0 +1,120 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="dict">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="entry" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="key" minOccurs="1" maxOccurs="unbounded"/>
+							<xs:element ref="part" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="subentry" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="runon" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="var" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="etym" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="comment" minOccurs="0" maxOccurs="1"/>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			
+			<xs:attribute type="xs:string" name="title" use="optional"/>
+			<xs:attribute type="xs:int" name="year" use="optional"/>
+            <xs:attribute type="xs:string" name="isbn" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="part">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="sense" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="var" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+
+			<xs:attribute type="xs:string" name="type" use="optional"/>
+			<xs:attribute type="xs:string" name="pl" use="optional"/>
+			<xs:attribute type="xs:string" name="pron" use="optional"/>
+			<xs:attribute type="xs:string" name="con" use="optional"/>
+			<xs:attribute type="xs:string" name="inf" use="optional"/>
+			<xs:attribute type="xs:string" name="lang" use="optional"/>
+			<xs:attribute type="xs:string" name="gram" use="optional"/>
+			<xs:attribute type="xs:string" name="sing" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="var">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute type="xs:string" name="pron" use="optional"/>
+					<xs:attribute type="xs:string" name="lang" use="optional"/>
+					<xs:attribute type="xs:string" name="con" use="optional"/>
+					<xs:attribute type="xs:string" name="pl" use="optional"/>
+					<xs:attribute type="xs:string" name="inf" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+  
+	<xs:element name="runon">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute type="xs:string" name="type" use="optional"/>
+					<xs:attribute type="xs:string" name="pron" use="optional"/>
+					<xs:attribute type="xs:string" name="gram" use="optional"/>
+					<xs:attribute type="xs:string" name="con" use="optional"/>
+					<xs:attribute type="xs:string" name="pl" use="optional"/>
+					<xs:attribute type="xs:string" name="inf" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+  
+	<xs:element name="subentry">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="head" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="sense" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element name="var" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute type="xs:string" name="type" use="optional"/>
+			<xs:attribute type="xs:string" name="pl" use="optional"/>
+			<xs:attribute type="xs:string" name="pron" use="optional"/>
+			<xs:attribute type="xs:string" name="con" use="optional"/>
+			<xs:attribute type="xs:string" name="inf" use="optional"/>
+			<xs:attribute type="xs:string" name="lang" use="optional"/>
+			<xs:attribute type="xs:string" name="gram" use="optional"/>
+			<xs:attribute type="xs:string" name="sing" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="sense">
+		<xs:complexType mixed="true">
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="i" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			  	<xs:element name="b" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="lang" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="pron" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="con" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="gram" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute type="xs:int" name="n" use="optional"/>
+            <xs:attribute type="xs:string" name="con" use="optional"/>
+			<xs:attribute type="xs:string" name="lang" use="optional"/>
+			<xs:attribute type="xs:string" name="gram" use="optional"/>
+			<xs:attribute type="xs:string" name="pl" use="optional"/>
+			<xs:attribute type="xs:string" name="pron" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="etym">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="i" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+ 
+</xs:schema>
