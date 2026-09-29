@@ -57,15 +57,14 @@ public class XMLParser {
 
         ArrayList<Entry> entryList = parseXML(dictFile);
 
-        //printResults(entryList, true);
-        saveResults(entryList, "results.txt", true);
+        saveResults(entryList, "fw 22 or more.txt", true);
     }
 
 
     /**
      * Iterates through the XML file and converts each <entry> element into a corresponding Object.
      *
-     * @param dictFile The file containing the dictionray data.
+     * @param dictFile The file containing the dictionary data.
      * @return A list of Entries in the order in which they were added.
      */
     private static ArrayList<Entry> parseXML(File dictFile) {
@@ -128,7 +127,6 @@ public class XMLParser {
                                 Element varElement = (Element) partVars.item(v);
                                 String content = varElement.getTextContent();
                                 String varCon = varElement.getAttribute("con");
-
                                 String varInf = null;
                                 if (varElement.hasAttribute("inf"))
                                     varInf = varElement.getAttribute("inf");
@@ -220,8 +218,8 @@ public class XMLParser {
      *
      * @param entryList A list of Entries containing dictionary data.
      */
-    private void getResults(ArrayList<Entry> entryList, boolean infer) {
-        Trie nwl = new Trie("NWL23");
+    private static void printResults(ArrayList<Entry> entryList, boolean infer) {
+//        Trie nwl = new Trie("NWL23");
 //        Trie csw = new Trie("CSW24");
         LinkedHashSet<String> words = new LinkedHashSet<>();
         for (Entry entry : entryList) {
@@ -229,7 +227,7 @@ public class XMLParser {
         }
         for (String word : words) {
             String formattedWord = scrabbleFormat(word);
-            if (!nwl.contains(formattedWord)) {
+            if (formattedWord.length() <= 15) {
                 System.out.println(formattedWord);
             }
         }
@@ -242,8 +240,8 @@ public class XMLParser {
      * @param infer Whether
      */
     private static void saveResults(ArrayList<Entry> entryList, String output, boolean infer) throws FileNotFoundException {
-//        Trie nwl = new Trie("NWL23");
-//        Trie csw = new Trie("CSW24");
+        Trie nwl = new Trie("NWL23");
+       // Trie csw = new Trie("CSW24");
         LinkedHashSet<String> words = new LinkedHashSet<>();
         try(PrintWriter pw = new PrintWriter(output)) {
 
@@ -252,7 +250,7 @@ public class XMLParser {
             }
             for (String word : words) {
                 String formattedWord = scrabbleFormat(word);
-                if (true) {
+                if (formattedWord.length() >= 22) {
                     pw.println(formattedWord);
                 }
             }
